@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Text, View, TouchableOpacity,StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity,StyleSheet,Button } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import SnapCamera from '../components/SnapCamera'
@@ -9,6 +9,8 @@ export default class  SettingScreen extends Component {
     title: '',
     headerStyle: { backgroundColor: '#008446'},
     headerTitleStyle: { color: 'white'},
+    headerTintColor: 'white',
+ 
   };
   state = {
     hasCameraPermission: null,
@@ -21,13 +23,16 @@ export default class  SettingScreen extends Component {
   snapPhoto = async( ) =>{       
     console.log('Button Pressed');
     if (this.camera) {
-      let photo = await this.camera.takePictureAsync({base64:true}); // take a snap, and return base64 representation
+      let photo = await this.camera.takePictureAsync({ quality: 1, base64: true, fixOrientation: true, 
+        exif: true}).then(photo=>{
+          photo.exif.Orientation=1;
+          console.log(photo)
+        }); // take a snap, and return base64 representation
      
-      // construct
       let formData = new FormData();
       formData.append("image", photo.base64); 
       formData.append("type", "base64");
-
+      console.log(formData)
       this.setState({
         latestImage: photo.uri, // preview the photo that was taken
         isCameraVisible: false // close the camera UI after taking the photo
@@ -36,13 +41,19 @@ export default class  SettingScreen extends Component {
       const response = await fetch("https://api.imgur.com/3/image", {
         method: "POST",
         headers: {
-          Authorization: "Client-ID YOUR_IMGUR_APP_ID" // add your Imgur App ID here
+      
+          Authorization: 'Client-ID e2437efb088e1b1',
+          Accept: 'application/json'
+          // add your Imgur App ID here
         },
-        body: formData
+        data: formData
+        ,success: result =>{
+          console.log(result.data.id); 
+        }
       });
 
       let response_body = await response.json(); // get the response body
-
+      console.log(response_body)
       // send data to all subscribers who are listening to the client-posted-photo event
       this.user_channel.trigger("client-posted-photo", {
         id: response_body.data.id, // unique ID assigned to the image
@@ -70,7 +81,7 @@ export default class  SettingScreen extends Component {
       </View>
       <Camera 
             style={styles.styleCamera} 
-            ref={ ref => this.camera = ref } 
+            ref={(ref) => {this.camera = ref} } 
             type={this.state.type}
             > 
       </Camera>

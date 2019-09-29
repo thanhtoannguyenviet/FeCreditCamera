@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Text, View, TouchableOpacity,StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity,StyleSheet,Button } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import SnapCamera from '../components/SnapCamera'
@@ -9,6 +9,7 @@ export default class  LinksScreen extends Component {
     title: '',
     headerStyle: { backgroundColor: '#008446'},
     headerTitleStyle: { color: 'white'},
+    headerTintColor: 'white',
   };
   state = {
     hasCameraPermission: null,
@@ -25,7 +26,7 @@ export default class  LinksScreen extends Component {
      
       // construct
       let formData = new FormData();
-      formData.append("image", photo.base64); 
+      formData.append("image", photo.base54); 
       formData.append("type", "base64");
 
       this.setState({
@@ -36,7 +37,8 @@ export default class  LinksScreen extends Component {
       const response = await fetch("https://api.imgur.com/3/image", {
         method: "POST",
         headers: {
-          Authorization: "Client-ID YOUR_IMGUR_APP_ID" // add your Imgur App ID here
+          Authorization: 'Client-ID e2437efb088e1b1',
+          Accept: 'application/json' // add your Imgur App ID here
         },
         body: formData
       });
