@@ -22,7 +22,7 @@ export default class HomeScreen extends Component {
   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
     <View style={styles.styleCamera}>
   <Text>Bắt đầu nhận diện chứng minh nhân dân</Text>
-    <TouchableOpacity style={styles.touchopacity} onPress={()=>{this.props.navigation.navigate('Links')}}>
+    <TouchableOpacity style={styles.touchopacity} onPress={()=>{this.props.navigation.navigate('Info')}}>
        <Text style={{color:'white'}}>BẮT ĐẦU</Text>
     </TouchableOpacity>
     </View>

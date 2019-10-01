@@ -2,15 +2,15 @@ import React,{Component} from 'react';
 import { Text, View, TouchableOpacity,StyleSheet,Button } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
-import SnapCamera from '../components/SnapCamera'
+import SnapCamera from '../components/SnapCamera';
+import {styleSheet} from '../const/styleSheet';
 import { AntDesign } from '@expo/vector-icons';
-export default class  SettingScreen extends Component {
+export default class  TakeCMND extends Component {
   static navigationOptions = {
     title: '',
     headerStyle: { backgroundColor: '#008446'},
     headerTitleStyle: { color: 'white'},
     headerTintColor: 'white',
- 
   };
   state = {
     hasCameraPermission: null,
@@ -23,16 +23,14 @@ export default class  SettingScreen extends Component {
   snapPhoto = async( ) =>{       
     console.log('Button Pressed');
     if (this.camera) {
-      let photo = await this.camera.takePictureAsync({ quality: 1, base64: true, fixOrientation: true, 
-        exif: true}).then(photo=>{
-          photo.exif.Orientation=1;
-          console.log(photo)
-        }); // take a snap, and return base64 representation
+      let photo = await this.camera.takePictureAsync({base64:true}); // take a snap, and return base64 representation
      
+      // construct
       let formData = new FormData();
-      formData.append("image", photo.base64); 
+      formData.append("name",   "dade"); 
+      formData.append("image", photo.base54); 
       formData.append("type", "base64");
-      console.log(formData)
+
       this.setState({
         latestImage: photo.uri, // preview the photo that was taken
         isCameraVisible: false // close the camera UI after taking the photo
@@ -41,19 +39,14 @@ export default class  SettingScreen extends Component {
       const response = await fetch("https://api.imgur.com/3/image", {
         method: "POST",
         headers: {
-      
           Authorization: 'Client-ID e2437efb088e1b1',
-          Accept: 'application/json'
-          // add your Imgur App ID here
+          Accept: 'application/json' // add your Imgur App ID here
         },
-        data: formData
-        ,success: result =>{
-          console.log(result.data.id); 
-        }
+        body: formData
       });
 
       let response_body = await response.json(); // get the response body
-      console.log(response_body)
+
       // send data to all subscribers who are listening to the client-posted-photo event
       this.user_channel.trigger("client-posted-photo", {
         id: response_body.data.id, // unique ID assigned to the image
@@ -75,19 +68,29 @@ export default class  SettingScreen extends Component {
     return (<View style={styles.container}>
       <View style={styles.styleViewCamera}>
         <View style={styles.circle}><AntDesign name="check" style={styles.Txt} color='white'/></View>
-        
         <View style={styles.link}></View>
-        <View style={styles.circle1}><Text style={styles.Txt}>2</Text></View>
+        <View style={styles.circle}><Text style={styles.Txt}>2</Text></View>
+        <View style={styles.link1}></View>
+        <View style={styles.circle1}><Text style={styles.Txt}>3</Text></View>
+      </View>
+      <View style={styles.infView}>
+        <View style={styles.infcircle}></View>
+        <View style={styles.infcircle}>
+          <Text style={styles.Txt1}>Nhập thông tin</Text>
+        </View>
+        <View style={styles.infcircle}><Text style={styles.Txt1}>Chụp CMND</Text></View>
+        <View style={styles.infcircle}><Text style={styles.Txt1}>Chụp ảnh bản thân</Text></View>
+        <View style={styles.infcircle}></View>
       </View>
       <Camera 
             style={styles.styleCamera} 
-            ref={(ref) => {this.camera = ref} } 
+            ref={ ref => this.camera = ref } 
             type={this.state.type}
             > 
       </Camera>
       <View style={styles.styleActionCamera}>
             <SnapCamera snapPhoto={()=>{this.snapPhoto();
-              this.props.navigation.navigate('Setting')}}/> 
+              this.props.navigation.navigate('Self')}}/> 
         </View>
     </View>)
   }}
@@ -98,52 +101,3 @@ export default class  SettingScreen extends Component {
     });
   }
 }
-const styles = StyleSheet.create({
-  container:{
-    flex:1
-  },
-  styleCamera:{
-    flex: 0.9,
-    justifyContent:'center',
-    alignItems: 'center'
-  },
-  styleViewCamera:{
-   flex:0.1,
-   backgroundColor:'white',
-   flexDirection:'row',
-   justifyContent: 'center',
-   alignItems: 'center',
-  },
-  styleActionCamera:{
-    flex: 0.1,
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  Txt:{
-    color:'white',
-    textAlign:'center'
-  },
-  circle:{
-    height:30,
-    width:30,
-    borderRadius:20,
-    backgroundColor:'#008446',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  circle1:{
-    height:30,
-    width:30,
-    borderRadius:20,
-    backgroundColor:'#008446',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  link:{
-    height:5,
-    width:50,
-    backgroundColor:'#008446'
-  }
-})
