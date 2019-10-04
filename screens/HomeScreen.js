@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
+import {styleSheet} from '../const/styleSheet';
 export default class HomeScreen extends Component {
   static navigationOptions = {
     title: 'ID Checked',
@@ -19,10 +19,10 @@ export default class HomeScreen extends Component {
   
   render(){
   return (
-  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+  <View style={styles.container}>
     <View style={styles.styleCamera}>
   <Text>Bắt đầu nhận diện chứng minh nhân dân</Text>
-    <TouchableOpacity style={styles.touchopacity} onPress={()=>{this.props.navigation.navigate('Info')}}>
+    <TouchableOpacity style={styles.touchopacityHome} onPress={()=>{this.props.navigation.navigate('Info')}}>
        <Text style={{color:'white'}}>BẮT ĐẦU</Text>
     </TouchableOpacity>
     </View>
@@ -32,16 +32,3 @@ export default class HomeScreen extends Component {
 }
 
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  touchopacity:{
-    borderRadius: 40,
-    backgroundColor:'#4DC68D',
-    alignItems:'center',
-    height:'25%',
-    justifyContent:'center',
-    color:'white',
-  }
-});

@@ -1,36 +1,45 @@
 import React,{Component} from 'react';
 import { Text, View, TouchableOpacity,StyleSheet,Button } from 'react-native';
-import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import SnapCamera from '../components/SnapCamera';
 import {styleSheet} from '../const/styleSheet';
 import { AntDesign } from '@expo/vector-icons';
+import * as Permissions from 'expo-permissions';
+import { MaterialIcons } from '@expo/vector-icons';
 export default class  TakeCMND extends Component {
   static navigationOptions = {
     title: '',
     headerStyle: { backgroundColor: '#008446'},
     headerTitleStyle: { color: 'white'},
     headerTintColor: 'white',
+    
   };
   state = {
     hasCameraPermission: null,
+    camera:null,
     type: Camera.Constants.Type.back,
+    
   };
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
-  }
-  snapPhoto = async( ) =>{       
+  } 
+  snapPhoto = async () =>{       
+  
     console.log('Button Pressed');
     if (this.camera) {
-      let photo = await this.camera.takePictureAsync({base64:true}); // take a snap, and return base64 representation
+      let photo = await this.camera.takePictureAsync( { quality: 1, base64: true, fixOrientation: true, 
+        exif: true}).then(photo => {
+          photo.exif.Orientation = 1;            
+           console.log(photo);            
+           }); // take a snap, and return base64 representation
      
       // construct
       let formData = new FormData();
-      formData.append("name",   "dade"); 
-      formData.append("image", photo.base54); 
+      formData.append("image", uri(photo.uri)); 
       formData.append("type", "base64");
 
+      console.log(formData)
       this.setState({
         latestImage: photo.uri, // preview the photo that was taken
         isCameraVisible: false // close the camera UI after taking the photo
@@ -46,7 +55,8 @@ export default class  TakeCMND extends Component {
       });
 
       let response_body = await response.json(); // get the response body
-
+      console.log(response_body);
+      
       // send data to all subscribers who are listening to the client-posted-photo event
       this.user_channel.trigger("client-posted-photo", {
         id: response_body.data.id, // unique ID assigned to the image
@@ -84,20 +94,14 @@ export default class  TakeCMND extends Component {
       </View>
       <Camera 
             style={styles.styleCamera} 
-            ref={ ref => this.camera = ref } 
+            ref={ (ref) => {this.camera = ref} } 
             type={this.state.type}
             > 
       </Camera>
       <View style={styles.styleActionCamera}>
-            <SnapCamera snapPhoto={()=>{this.snapPhoto();
+      <SnapCamera snapPhoto={()=>{this.snapPhoto;
               this.props.navigation.navigate('Self')}}/> 
         </View>
     </View>)
   }}
-
-  fontCamera = () =>{
-    this.setState({
-      type:  this.state.type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back,
-    });
-  }
 }

@@ -4,6 +4,15 @@ export default styles = StyleSheet.create({
     container: {
       flex: 1,
     },
+    touchopacityHome:{
+      borderRadius: 40,
+      backgroundColor:'#4DC68D',
+      alignItems:'center',
+      height:'10%',
+      width:'80%',
+      justifyContent:'center',
+      color:'white',
+    },
     rowCus:{
       justifyContent: 'center',
       alignItems: 'center',
@@ -11,7 +20,7 @@ export default styles = StyleSheet.create({
       justifyContent:'space-around',
     },
     halfView:{
-      width:140
+      width:140 
     },
     touchopacity:{
       borderRadius: 40,
@@ -20,6 +29,14 @@ export default styles = StyleSheet.create({
       height:'35%',
       justifyContent:'center',
       color:'white',
+    },
+    touchopacity1:{
+      borderRadius: 40,
+      borderColor:'#4DC68D',
+      alignItems:'center',
+      height:'10%',
+      justifyContent:'center',
+      borderWidth:1
     },
     styleViewCamera:{
         flex:0.05,
@@ -54,6 +71,15 @@ export default styles = StyleSheet.create({
         backgroundColor:'#C4C4C4',
         justifyContent: 'center',
         alignItems: 'center',
+      },
+      circle2:{
+        height:30,
+        width:30,
+        borderRadius:20,
+        backgroundColor:'red',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection:'column',
       },
       infcircle:{
         height:20,
