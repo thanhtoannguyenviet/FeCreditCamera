@@ -4,7 +4,7 @@ import { Camera } from 'expo-camera';
 import {styleSheet} from '../const/styleSheet';
 export default class  SettingScreen extends Component {
     static navigationOptions = {
-      title: 'Id Checker',
+      title: 'Id Checked',
       headerStyle: { backgroundColor: '#008446'},
       headerTitleStyle: { color: 'white'},
       headerTintColor: 'white',

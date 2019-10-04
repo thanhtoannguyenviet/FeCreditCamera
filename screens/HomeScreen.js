@@ -12,7 +12,7 @@ import {
 import {styleSheet} from '../const/styleSheet';
 export default class HomeScreen extends Component {
   static navigationOptions = {
-    title: 'ID Checked',
+    title: 'Id Checked',
     headerStyle: { backgroundColor: '#008446'},
     headerTitleStyle: { color: 'white'},
   };

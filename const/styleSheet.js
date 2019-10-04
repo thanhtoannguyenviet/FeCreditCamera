@@ -36,7 +36,8 @@ export default styles = StyleSheet.create({
       alignItems:'center',
       height:'10%',
       justifyContent:'center',
-      borderWidth:1
+      borderWidth:1,
+      margin:10
     },
     styleViewCamera:{
         flex:0.05,

@@ -67,13 +67,16 @@ export default class KetQua extends Component {
                     <Text>Mẫu chuẩn đúng (Quốc Uy) </Text>
                 </TouchableOpacity>
                 <View style={{borderRadius:10,borderColor:'green',borderWidth:2,height:120,width:300,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                    <Image source={{uri:this.state.jsonResult.rsDrawIdEmblemUrl}} style={{height:'40%',width:'80%'}}></Image>
+                    <Image source={{uri:this.state.jsonResult.rsDrawIdEmblemUrl}} style={{height:'100%',width:'45%',margin:5,resizeMode :'contain'}}></Image>
                 </View>
        </View>
   <View>
-<TouchableOpacity style={styles.touchopacityHome}>
+      <View style={{height:'20%',width:'80%'}}>
+<TouchableOpacity style={styles.touchopacity}  onPress={()=>{this.props.navigation.navigate('Home')}}>
    <Text style={{color:'white'}}>XÁC NHẬN</Text>
-</TouchableOpacity></View>
+</TouchableOpacity>
+    </View>
+</View>
 </View>
         )
     }

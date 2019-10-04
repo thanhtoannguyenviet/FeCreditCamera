@@ -7,7 +7,7 @@ import ChangeCamera from '../components/ChangeCamera'
 import { AntDesign } from '@expo/vector-icons';
 export default class  SettingScreen extends Component {
   static navigationOptions = {
-    title: '',
+    title: 'Id Checked',
     headerStyle: { backgroundColor: '#008446'},
     headerTitleStyle: { color: 'white'},
     headerTintColor: 'white',

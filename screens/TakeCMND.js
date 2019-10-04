@@ -8,11 +8,11 @@ import * as Permissions from 'expo-permissions';
 import { MaterialIcons } from '@expo/vector-icons';
 export default class  TakeCMND extends Component {
   static navigationOptions = {
-    title: '',
+    title: 'Id Checked',
     headerStyle: { backgroundColor: '#008446'},
     headerTitleStyle: { color: 'white'},
     headerTintColor: 'white',
-    
+ 
   };
   state = {
     hasCameraPermission: null,
